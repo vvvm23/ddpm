@@ -1,0 +1,25 @@
+[trainer]
+    exp_name = 'ddpm-debug'
+    batch_size = 256
+    max_steps = 100_000
+    learning_rate = 0.0004
+    checkpoint_frequency = 1000
+
+[data]
+    name = 'cifar10'
+
+[diffuser]
+    nb_timesteps = 1000
+    mode = 'cosine'
+
+[unet]
+    in_channels = 3
+    base_channels = 128
+    channel_multipliers = [1, 2, 2, 2]
+    dim_t = 64
+    attention_resolutions = [2, 4]
+    nb_res_layers = 3
+    nb_heads = 4
+    dim_head = 64
+    scale_norm = true
+    norm_groups = 8

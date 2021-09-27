@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import torch
+import torch.nn.functional as F
 
 from ptpt.trainer import Trainer, TrainerConfig
 from ptpt.log import info, debug, error
@@ -8,7 +9,7 @@ from ptpt.log import info, debug, error
 from ddpm.unet import UNet
 from ddpm.diffusion import Diffuser
 
-from utils import set_seed
+from utils import set_seed, get_device
 from dataset import get_dataset
 
 import argparse
@@ -22,11 +23,22 @@ def main(args):
 
     train_dataset, test_dataset = get_dataset(cfg.data['name'])
 
-    diffuser = Diffuser(**cfg.diffuser) 
+    diffuser = Diffuser(**cfg.diffuser).to(get_device(args.no_cuda))
     net = UNet(**cfg.unet)
 
-    # def loss_fn(net, x):
-        # pass
+    def loss_fn(net, batch):
+        x, _ = batch
+        T = diffuser.nb_timesteps
+
+        N = x.shape[0]
+        t = torch.randint(0, T, (N,)).to(x.device)
+        noise = torch.randn_like(x)
+
+        x_noisy = diffuser.diffuse(x, t, noise)
+        x_recon = net(x_noisy, t)
+
+        loss = F.mse_loss(noise, x_recon)
+        return loss,
 
     trainer_cfg = TrainerConfig(
         **cfg.trainer,

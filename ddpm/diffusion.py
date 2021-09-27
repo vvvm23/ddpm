@@ -30,11 +30,11 @@ class Diffuser(HelperModule):
         sqrt_cum_alpha = torch.sqrt(cum_alpha)
         one_minus_cum_alpha = 1.0 - cum_alpha
 
-        self.register_buffer('sqrt_cum_alpha', sqrt_cum_alpha.to(torch.float32))
-        self.register_buffer('one_minus_cum_alpha', one_minus_cum_alpha.to(torch.float32))
+        self.register_buffer('sqrt_cum_alpha', sqrt_cum_alpha.to(torch.float32)[:, None, None, None])
+        self.register_buffer('one_minus_cum_alpha', one_minus_cum_alpha.to(torch.float32)[:, None, None, None])
 
-    def diffuse(self, x, t):
-        return self.sqrt_cum_alpha[t] * x + self.one_minus_cum_alpha[t] * torch.randn_like(x) 
+    def diffuse(self, x, t, noise):
+        return self.sqrt_cum_alpha[t] * x + self.one_minus_cum_alpha[t] * noise
 
 if __name__ == '__main__':
     from torchvision.utils import save_image
