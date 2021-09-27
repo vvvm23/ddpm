@@ -11,9 +11,9 @@ improvements from "Improved Denoising Diffusion Probabilistic Models".
     - [ ] (Other schedules?)
     - [ ] Tractable computations for loss calculation
 - [ ] Implement UNet architecture
-    - [ ] Main model structure
-    - [ ] Multi-headed self-attention at certain resolutions
-    - [ ] Improved time embedding injection (Appendix A)
+    - [X] Main model structure
+    - [X] Multi-headed self-attention at certain resolutions
+    - [X] Improved time embedding injection (Appendix A)
     - [ ] Learning variance (Section 3.1)
     - [ ] Class conditioning
     - [ ] EMA parameter updates

@@ -274,11 +274,15 @@ class UNet(HelperModule):
 
 if __name__ == '__main__':
     from .utils import get_parameter_count
-    N = 16
+    N = 8
     device = torch.device('cuda')
-    model = UNet(scale_norm=False).to(device)
+    model = UNet(
+        channel_multipliers = [1, 2, 2, 2],
+        attention_resolutions = [16],
+        scale_norm=False
+    ).to(device)
     print(f"> number of parameters: {get_parameter_count(model)}")
-    x = torch.randn(N, 3, 128, 128).to(device)
+    x = torch.randn(N, 3, 256, 256).to(device)
     t = torch.randint(0, 5000, (N,)).to(device)
     y = model(x, t)
     print(y.shape)
