@@ -18,7 +18,8 @@ improvements from "Improved Denoising Diffusion Probabilistic Models".
     - [ ] Class conditioning
     - [ ] EMA parameter updates
 - [ ] Training script
-    - [ ] Simple loss computation
+    - [X] Main script
+    - [X] Simple loss computation
     - [ ] Hybrid loss computation
     - [ ] Auxiliary denoising loss (from D3PM)
 - [ ] Sample generation
