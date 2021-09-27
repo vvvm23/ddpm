@@ -1,8 +1,44 @@
 # Denoising Diffusion Probabilistic Models (WIP)
-PyTorch implementation of "Denoising Diffusion Probabilistic Models" and DPPM
-improvements from "Improved Denoising Diffusion Probabilistic Models".
+> PyTorch implementation of "Denoising Diffusion Probabilistic Models" (DPPM)
+> and DPPM improvements from "Improved Denoising Diffusion Probabilistic
+> Models".
+
+The original paper can be found [here](https://arxiv.org/abs/2006.11239)
+
+OpenAI released a (claimed) improvement upon DDPM, which is incorporated in
+this repo. Their paper can be found [here](https://arxiv.org/abs/2102.09672)
+
+My aim is to provide an implementation that incorporates elements from both
+papers whilst remaining (relatively) simple to understand.
 
 > Currently a work-in-progress. Stay tuned!
+
+## Installation
+`TODO: pip install instructions`
+
+`TODO: build instructions`
+
+## Usage
+
+### DDPM Model
+`TODO: instructions on using the model as a standalone module`
+
+### Training
+`TODO: instructions on using the training script`
+
+### Generation
+`TODO: instructions on using sample generation script`
+
+## Modifications
+`TODO: note any deviations from the original works`
+
+## Samples
+`TODO: add some nice samples from the trained model`
+
+## Checkpoints
+`TODO: add trained checkpoints`
+
+---
 
 ### TODO:
 - [ ] Forward diffusion
@@ -23,6 +59,12 @@ improvements from "Improved Denoising Diffusion Probabilistic Models".
     - [ ] Hybrid loss computation
     - [ ] Auxiliary denoising loss (from D3PM)
 - [ ] Sample generation
+- [ ] Misc
+    - [ ] Nice README :)
+    - [ ] Nice docstrings
+    - [ ] Nice Samples
+    - [ ] PyPi library
+    - [ ] Trained Checkpoints
 
 ### References
 
