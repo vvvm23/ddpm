@@ -3,10 +3,10 @@
 > and DPPM improvements from "Improved Denoising Diffusion Probabilistic
 > Models".
 
-The original paper can be found [here](https://arxiv.org/abs/2006.11239)
+The original paper can be found [here](https://arxiv.org/abs/2006.11239).
 
 OpenAI released a (claimed) improvement upon DDPM, which is incorporated in
-this repo. Their paper can be found [here](https://arxiv.org/abs/2102.09672)
+this repo. Their paper can be found [here](https://arxiv.org/abs/2102.09672).
 
 My aim is to provide an implementation that incorporates elements from both
 papers whilst remaining (relatively) simple to understand.

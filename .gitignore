@@ -132,3 +132,6 @@ dmypy.json
 #
 ## start of my additions ##
 data/
+exp/
+**/*.out
+**/*.job
