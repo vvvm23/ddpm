@@ -62,6 +62,9 @@ def main(args):
 
     if cfg.ema['enabled']:
         def ema_callback(trainer):
+            if trainer.nb_updates < cfg.ema['start']:
+                debug("resetting EMA copy weights")
+                trainer.net.reset_model()
             debug("updating EMA weights")
             trainer.net.update_model()
 

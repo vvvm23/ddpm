@@ -28,3 +28,4 @@
     enabled = true
     beta = 0.995
     frequency = 5
+    start = 100

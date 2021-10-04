@@ -273,6 +273,7 @@ class UNet(HelperModule):
         
         return self.out_block(x)
 
+# TODO: start ema point
 class EMA(HelperModule):
     def build(self,
             model: nn.Module,
@@ -281,7 +282,7 @@ class EMA(HelperModule):
         self.beta = beta
         self.model = model
         self.model_copy = deepcopy(self.model) # TODO: may be better as a buffer
-    
+
     def forward(self, *args, **kwargs):
         return self.model(*args, **kwargs)
 
@@ -292,6 +293,9 @@ class EMA(HelperModule):
         for old_param, new_param in zip(self.model_copy.parameters(), self.model.parameters()):
             old_data, new_data = old_param.data, new_param.data
             self.model_copy.data = self.update_average(old_data, new_data)
+
+    def reset_model(self):
+        self.model_copy.load_state_dict(self.model.state_dict())
 
 if __name__ == '__main__':
     from .utils import get_parameter_count
