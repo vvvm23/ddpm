@@ -23,3 +23,8 @@
     dim_head = 64
     scale_norm = true
     norm_groups = 8
+
+[ema]
+    enabled = true
+    beta = 0.995
+    frequency = 5

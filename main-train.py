@@ -4,9 +4,10 @@ import torch
 import torch.nn.functional as F
 
 from ptpt.trainer import Trainer, TrainerConfig
+from ptpt.callbacks import CallbackType
 from ptpt.log import info, debug, error
 
-from ddpm.unet import UNet
+from ddpm.unet import UNet, EMA
 from ddpm.diffusion import Diffuser
 
 from utils import set_seed, get_device
@@ -24,7 +25,10 @@ def main(args):
     train_dataset, test_dataset = get_dataset(cfg.data['name'])
 
     diffuser = Diffuser(**cfg.diffuser).to(get_device(args.no_cuda))
-    net = UNet(**cfg.unet)
+    if cfg.ema['enabled']:
+        net = EMA(UNet(**cfg.unet), beta = cfg.ema['beta'])
+    else:
+        net = UNet(**cfg.unet)
 
     def loss_fn(net, batch):
         x, _ = batch
@@ -55,6 +59,17 @@ def main(args):
         test_dataset = test_dataset,
         cfg = trainer_cfg,
     )
+
+    if cfg.ema['enabled']:
+        def ema_callback(trainer):
+            debug("updating EMA weights")
+            trainer.net.update_model()
+
+        trainer.register_callback(
+            CallbackType.ParameterUpdate, 
+            ema_callback, 
+            frequency=cfg.ema['frequency']
+        )
 
     if args.resume:
         trainer.load_checkpoint(args.resume)

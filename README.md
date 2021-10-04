@@ -50,9 +50,9 @@ papers whilst remaining (relatively) simple to understand.
     - [X] Main model structure
     - [X] Multi-headed self-attention at certain resolutions
     - [X] Improved time embedding injection (Appendix A)
+    - [X] EMA parameter updates
     - [ ] Learning variance (Section 3.1)
     - [ ] Class conditioning
-    - [ ] EMA parameter updates
 - [ ] Training script
     - [X] Main script
     - [X] Simple loss computation
