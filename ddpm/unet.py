@@ -272,6 +272,21 @@ class UNet(HelperModule):
         
         return self.out_block(x)
 
+# TODO: potentially integrate within the UNet itself
+class EMA:
+    def __init__(self,
+        beta: float = 0.995
+    ):
+        self.beta = beta
+
+    def update_model(self, offline_model, online_model):
+        pass
+
+    def update_average(old, new):
+        if old is None:
+            return new
+        return old * self.beta + new * (1 - self.beta)
+
 if __name__ == '__main__':
     from .utils import get_parameter_count
     N = 8
