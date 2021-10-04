@@ -6,6 +6,7 @@ from einops import rearrange
 
 import math
 from typing import List
+from copy import deepcopy
 
 from .utils import HelperModule
 
@@ -272,32 +273,40 @@ class UNet(HelperModule):
         
         return self.out_block(x)
 
-# TODO: potentially integrate within the UNet itself
-class EMA:
-    def __init__(self,
-        beta: float = 0.995
-    ):
+class EMA(HelperModule):
+    def build(self,
+            model: nn.Module,
+            beta: float = 0.995,
+        ):
         self.beta = beta
+        self.model = model
+        self.model_copy = deepcopy(self.model) # TODO: may be better as a buffer
+    
+    def forward(self, *args, **kwargs):
+        return self.model(*args, **kwargs)
 
-    def update_model(self, offline_model, online_model):
-        pass
+    def update_average(self, old, new):
+        return old * self.beta + new * (1. - self.beta)
 
-    def update_average(old, new):
-        if old is None:
-            return new
-        return old * self.beta + new * (1 - self.beta)
+    def update_model(self):
+        for old_param, new_param in zip(self.model_copy.parameters(), self.model.parameters()):
+            old_data, new_data = old_param.data, new_param.data
+            self.model.data = self.update_average(old_data, new_data)
 
 if __name__ == '__main__':
     from .utils import get_parameter_count
     N = 8
-    device = torch.device('cuda')
-    model = UNet(
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    model = EMA(UNet(
         channel_multipliers = [1, 2, 2, 2],
         attention_resolutions = [16],
         scale_norm=False
-    ).to(device)
+    ), beta=0.995).to(device)
     print(f"> number of parameters: {get_parameter_count(model)}")
     x = torch.randn(N, 3, 256, 256).to(device)
     t = torch.randint(0, 5000, (N,)).to(device)
     y = model(x, t)
     print(y.shape)
+
+    model.update_model()
+    print(f"> updating model. beta = {model.beta}")
